@@ -8,17 +8,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/properties")
-//@CrossOrigin("*")
 public class PropertyController {
+
     private final PropertyService service;
 
     public PropertyController(PropertyService service) {
         this.service = service;
-    }
-
-    @PostMapping
-    public Property create(@RequestBody Property property) {
-        return service.createProperty(property);
     }
 
     @GetMapping
@@ -28,7 +23,13 @@ public class PropertyController {
 
     @GetMapping("/{id}")
     public Property getById(@PathVariable Long id) {
-        return service.getPropertyById(id).orElseThrow(() -> new RuntimeException("Property not found"));
+        return service.getPropertyById(id)
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+    }
+
+    @PostMapping
+    public Property create(@RequestBody Property property) {
+        return service.createProperty(property);
     }
 
     @PutMapping("/{id}")
