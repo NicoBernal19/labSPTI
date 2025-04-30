@@ -27,6 +27,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/properties/**").permitAll() // Ajusta según tus necesidades
                         .anyRequest().authenticated()
+                )
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("default-src 'self'; script-src 'self'")
+                        )
+                        .frameOptions(frame -> frame
+                                .deny()
+                        )
+                        .contentTypeOptions(contentType -> {
+                            // Esto activa X-Content-Type-Options: nosniff
+                        })
                 );
 
         return http.build();
